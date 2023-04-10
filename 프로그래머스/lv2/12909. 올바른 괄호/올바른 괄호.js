@@ -1,11 +1,19 @@
 function solution(s){
-    let stackCnt = 0;
-
-    for(let i=0; i<s.length; i++){
-        stackCnt += s[i] === '(' ? 1 : -1;
-        if (stackCnt < 0){
-            return false;
-        }
+    // 스택
+    if(s[0] === ')'){
+        return false;
     }
-    return stackCnt === 0 ? true : false;
+    
+    let stack = [s[0]];
+    for(let i=1; i<s.length; i++){
+        if(s[i] === '('){
+            stack.push(s[i]);
+        } else {
+            if (stack[stack.length-1] === '(' ){
+                stack.pop();
+            }
+        }
+        
+    }
+    return stack.length === 0 ?  true :  false;
 }
