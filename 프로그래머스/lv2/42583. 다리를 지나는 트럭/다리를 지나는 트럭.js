@@ -20,7 +20,6 @@ function solution(bridge_length, weight, truck_weights) {
     let done = [] // 건넌 트럭
     let num = truck_weights.length
     
-    // while(true){
     while(curr_bridge.length){
         time++
         
@@ -34,27 +33,6 @@ function solution(bridge_length, weight, truck_weights) {
             }
         }
         
-//         let check = checkBeforeUp(truck_weights[0], curr_bridge, weight, bridge_length)
-//         if (check.length > 0){ // 트럭이 다리 위로 올라감
-//             curr_bridge = [truck_weights[0], ...curr_bridge]
-//             truck_weights.shift()
-//             let pop = curr_bridge.pop()
-//             if (pop > 0){ // 트럭이 다리 위에서 내려감
-//                 done.push(pop)
-//             }
-            
-//         } else { // 다리 위 트럭만 전진
-//             curr_bridge = [0, ...curr_bridge]
-//             let pop = curr_bridge.pop()
-//             if (pop > 0){ // 트럭이 다리 위에서 내려감
-//                 done.push(pop)
-//             }
-//         }
-        
-        // 모든 트럭이 다 건너면 종료
-        if(done.length === num){
-            break
-        }
     }
     
     return time
