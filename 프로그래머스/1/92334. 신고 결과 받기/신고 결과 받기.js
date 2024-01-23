@@ -1,45 +1,47 @@
 function solution(id_list, report, k) {
-    // 데이터 담을 배열 생성
-    let data = {}
-    id_list.forEach((id)=>{
-        data[id] = [[],[]]
-    })
-    
-    // 신고 기록 배열화
-    report = report.map((r)=>r.split(' '))
-    
-    // 신고 기록 돌면서 추가하기
-    report.forEach((r)=>{
-        // 피해자
-        data[r[0]][0].push(r[1])
-        // 가해자
-        data[r[1]][1].push(r[0])
-    })
-    
     // 중복 제거
-    const data_entry = Object.entries(data);
+    report = [...new Set(report)]
     
-    const data_set = {}
-    for(const [key, val] of data_entry){
-        let report = Array.from(new Set(val[0]))
-        let reported = Array.from(new Set(val[1]))
-        data_set[key] = [report, reported]
+    // 리포트 개수 세기
+    const reportLog = {}
+    
+    for(const user of id_list){
+        reportLog[user] = 0
     }
     
-    // 정지 유저 리스트    
-    const data_set_entry = Object.entries(data_set);
+    report.forEach((rep)=>{
+        const [from, to] = rep.split(' ')
+        
+        reportLog[to]++
+    })
     
-    let stop = []
-    for(const [key,val] of data_set_entry){
-        if(val[1].length >= k){
-            stop.push(key)
+    // 정지된 유저
+    const bannedList = []
+    
+    for(const key in reportLog){
+        if(reportLog[key] >= k){
+            bannedList.push(key)
         }
     }
-    // 각 유저별로 처리 결과 메일을 받은 횟수를 배열에 담아 return
-    let answer = []
-    for(const [key, val] of data_set_entry){
-        let temp = val[0].filter((v)=>stop.includes(v)).length
-        answer.push(temp)
-    }
-    return answer
+    
+    // 메일 리스트
+    const mailList = {}
+    
+    report.forEach((rep)=>{
+        const [from, to] = rep.split(' ')
+        
+        if(bannedList.includes(to)){
+            mailList[from]  ? mailList[from]++ : mailList[from] = 1
+        }
+    })
+    
+    
+    // return
+    return id_list.map((id)=>{
+        if(mailList[id]){
+            return mailList[id]
+        } else {
+            return 0
+        }
+    })
 }
